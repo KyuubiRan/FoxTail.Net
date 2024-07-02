@@ -39,6 +39,6 @@ public static class ObjectExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T? CastOrNull<T>(this object obj) where T : class
     {
-        return obj is T t ? t : null;
+        return obj as T;
     }
 }
