@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Utility.Extensions;
+namespace FoxTail.Extensions;
 
 public static class CollectionExtensions
 {

@@ -1,6 +1,9 @@
-﻿/Utility.Extensions/bin/
-/Utility.Extensions/obj/
-/Utility.Tests/obj/
-/Utility.Tests/bin/
+﻿/FoxTail.Extensions/bin/
+/FoxTail.Extensions/obj/
+/FoxTail.Tests/obj/
+/FoxTail.Tests/bin/
+/FoxTail.Common/bin/
+/FoxTail.Common/obj/
 /.idea/
 /.vscode/
+/.vs/

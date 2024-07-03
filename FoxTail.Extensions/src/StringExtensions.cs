@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Utility.Extensions;
+namespace FoxTail.Extensions;
 
 public static class StringExtensions
 {
