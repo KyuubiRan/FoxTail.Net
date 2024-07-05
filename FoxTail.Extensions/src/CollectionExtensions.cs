@@ -1,41 +1,17 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace FoxTail.Extensions;
 
 public static class CollectionExtensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsEmpty<T>(this T[] array) => array.Length == 0;
+    public static bool IsEmpty<T>(this ICollection<T> collection) => collection.Count == 0;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsNotEmpty<T>(this T[] array) => array.Length != 0;
+    public static bool IsNotEmpty<T>(this ICollection<T> collection) => collection.Count != 0;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsEmpty<T>(this List<T> array) => array.Count == 0;
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsNotEmpty<T>(this List<T> array) => array.Count != 0;
-
-    public static IEnumerable<T> OnEach<T>(this IEnumerable<T> source, Action<T> action)
-    {
-        return source.Select(x =>
-        {
-            action(x);
-            return x;
-        });
-    }
-
-    public static IEnumerable<T> OnEachIndexed<T>(this IEnumerable<T> source, Action<T, int> action)
-    {
-        var index = 0;
-        return source.Select(x =>
-        {
-            action(x, index++);
-            return x;
-        });
-    }
-
-    public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+    public static void ForEach<TElement>(this ICollection<TElement> source, Action<TElement> action)
     {
         foreach (var item in source)
         {
@@ -43,12 +19,71 @@ public static class CollectionExtensions
         }
     }
 
-    public static void ForEachIndexed<T>(this IEnumerable<T> source, Action<T, int> action)
+    public static void ForEach<TElement>(this IList<TElement> source, Action<TElement> action)
     {
-        var index = 0;
         foreach (var item in source)
         {
-            action(item, index++);
+            action(item);
         }
+    }
+
+    public static void ForEach<TKey, TValue>(this IDictionary<TKey, TValue> source,
+        Action<TKey, TValue> action)
+    {
+        foreach (var item in source)
+        {
+            action(item.Key, item.Value);
+        }
+    }
+
+    public static IList<TElement> ForEachIndexed<TElement>(this IList<TElement> source, Action<int, TElement> action)
+    {
+        for (var i = 0; i < source.Count; i++)
+        {
+            action(i, source[i]);
+        }
+
+        return source;
+    }
+
+    public static ICollection<TElement> OnEach<TElement>(this ICollection<TElement> source, Action<TElement> action)
+    {
+        foreach (var item in source)
+        {
+            action(item);
+        }
+
+        return source;
+    }
+
+    public static IList<TElement> OnEach<TElement>(this IList<TElement> source, Action<TElement> action)
+    {
+        foreach (var item in source)
+        {
+            action(item);
+        }
+
+        return source;
+    }
+
+    public static IDictionary<TKey, TValue> OnEach<TKey, TValue>(this IDictionary<TKey, TValue> source,
+        Action<TKey, TValue> action)
+    {
+        foreach (var item in source)
+        {
+            action(item.Key, item.Value);
+        }
+
+        return source;
+    }
+
+    public static IList<TElement> OnEachIndexed<TElement>(this IList<TElement> source, Action<int, TElement> action)
+    {
+        for (var i = 0; i < source.Count; i++)
+        {
+            action(i, source[i]);
+        }
+
+        return source;
     }
 }

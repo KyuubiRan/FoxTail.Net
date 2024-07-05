@@ -1,9 +1,10 @@
 ﻿/FoxTail.Extensions/bin/
 /FoxTail.Extensions/obj/
-/FoxTail.Tests/obj/
-/FoxTail.Tests/bin/
+/FoxTail.UnitTests/obj/
+/FoxTail.UnitTests/bin/
 /FoxTail.Common/bin/
 /FoxTail.Common/obj/
 /.idea/
 /.vscode/
 /.vs/
+/FoxTail.Net.sln.DotSettings.user
