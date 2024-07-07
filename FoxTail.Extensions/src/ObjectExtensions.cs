@@ -23,6 +23,12 @@ public static class ObjectExtensions
         return func(it);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void Let<T>(this T it, Action<T> action)
+    {
+        action(it);
+    }
+
     /// <summary>
     /// Let object do something, then return the itself.
     /// </summary>
