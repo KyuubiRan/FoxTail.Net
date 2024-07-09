@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 
-namespace FoxTail.Common;
+namespace FoxTail.Common.Exceptions;
 
 public static class ExceptionUtils
 {

@@ -1,4 +1,5 @@
 using FoxTail.Common;
+using FoxTail.Common.Exceptions;
 
 namespace FoxTail.UnitTests.Common;
 
@@ -12,7 +13,7 @@ public class ExceptionUtilTest
             .OnFailure(x => { Console.WriteLine("Failure: " + x.Message); });
 
         Console.WriteLine("--------------------------------------------------------");
-        
+
         ExceptionUtils.RunCatching(() =>
             {
                 Console.WriteLine("Hello, World!");
@@ -25,5 +26,29 @@ public class ExceptionUtilTest
             .OnFailure<IOException>(x => { Console.WriteLine("This case will not be executed."); })
             // .RethrowIfFailure()
             ;
+    }
+
+    [Test]
+    public void Test2()
+    {
+        ExceptionUtils.RunCatching(() => { ArgumentExceptionUtils.ThrowIfNot(false, "This case will throw an exception."); })
+            .OnFailure(x => { Console.WriteLine("Exception raised 01"); });
+        ExceptionUtils.RunCatching(() => { ArgumentExceptionUtils.ThrowIfNot(() => false, "This case will throw an exception."); })
+            .OnFailure(x => { Console.WriteLine("Exception raised 02"); });   
+
+        ExceptionUtils.RunCatching(() => { ArgumentExceptionUtils.ThrowIf(true, "This case will throw an exception."); })
+            .OnFailure(x => { Console.WriteLine("Exception raised 03"); });
+        ExceptionUtils.RunCatching(() => { ArgumentExceptionUtils.ThrowIf(() => true, "This case will throw an exception."); })
+            .OnFailure(x => { Console.WriteLine("Exception raised 04"); });
+                
+        ExceptionUtils.RunCatching(() => { ArgumentExceptionUtils.ThrowIfNot(true, "This case will not throw."); })
+            .OnFailure(x => { Console.WriteLine("Exception raised 05"); });
+        ExceptionUtils.RunCatching(() => { ArgumentExceptionUtils.ThrowIfNot(() => true, "This case will not throw."); })
+            .OnFailure(x => { Console.WriteLine("Exception raised 06"); });
+        
+        ExceptionUtils.RunCatching(() => { ArgumentExceptionUtils.ThrowIf(false, "This case will not throw."); })
+            .OnFailure(x => { Console.WriteLine("Exception raised 07"); });
+        ExceptionUtils.RunCatching(() => { ArgumentExceptionUtils.ThrowIf(() => false, "This case will not throw."); })
+            .OnFailure(x => { Console.WriteLine("Exception raised 08"); });
     }
 }
