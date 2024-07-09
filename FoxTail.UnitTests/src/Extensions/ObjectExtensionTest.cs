@@ -14,5 +14,10 @@ public class ObjectExtensionTest
             return x ? 100 : -100;
         });
         bool alsoret = obj.Also(Console.WriteLine);
+
+        alsoret.Let(x =>
+        {
+            Console.WriteLine(x);
+        });
     }
 }
