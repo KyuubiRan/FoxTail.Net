@@ -8,7 +8,7 @@
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Authors>KyuubiRan</Authors>
         <Title>FoxTail.Extensions</Title>
-        <Version>0.0.3</Version>
+        <Version>0.0.4</Version>
         <RepositoryUrl>https://github.com/KyuubiRan/FoxTail.Net</RepositoryUrl>
         <Description>A functional utility library for C#.</Description>
         <PackageReadmeFile>README.MD</PackageReadmeFile>
