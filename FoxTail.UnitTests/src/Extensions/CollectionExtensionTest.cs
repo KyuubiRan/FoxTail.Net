@@ -7,13 +7,12 @@ public class CollectionExtensionTest
     [Test]
     public void ForEachListTest()
     {
-        int[] list = [1, 2, 3];
-
-        list.OnEach(x => { Console.WriteLine($"OnEach: {x}"); })
-            .ForEachIndexed((i, x) => { Console.WriteLine($"ForEachIndexed: idx = {i} value = {x}"); });
-
-        list.OnEachIndexed((i, x) => { Console.WriteLine($"OnEachIndexed: idx = {i} value = {x}"); })
-            .ForEach(x => { Console.WriteLine($"ForEach: {x}"); });
+        List<int> l = [2, 3, 4, 5, 6];
+        l.OnEach(Console.WriteLine)
+            .ToList()
+            .Also(_=> { Console.WriteLine("------------------------------------------"); })
+            .Select(x => x * 2)
+            .ForEach(Console.WriteLine);
     }
 
     [Test]
@@ -24,8 +23,7 @@ public class CollectionExtensionTest
             "ccc", "bbb", "aaa"
         };
 
-        var set2 = set.OnEach(x => { Console.WriteLine($"OnEach: {x}"); }).ToHashSet();
-        set2.ForEach(x => { Console.WriteLine($"ForEach: {x}"); });
+        set.ForEach((x, i) => { Console.WriteLine($"ForEach: [{i}]={x}"); });
     }
 
     [Test]
@@ -33,10 +31,9 @@ public class CollectionExtensionTest
     {
         var dict = new Dictionary<string, int>
         {
-            { "aa", 1 }, { "bb", 2 }, { "cc", 3 }
+            { "aaa", 111 }, { "bbb", 222 }, { "ccc", 333 }
         };
-        
-        var dict2 = dict.OnEach((k, v) => { Console.WriteLine($"OnEach: {k}={v}"); }).ToDictionary();
-        dict2.ForEach((k, v) => { Console.WriteLine($"ForEach: {k}={v}"); });
+
+        dict.ForEach((k, v) => { Console.WriteLine($"ForEach: {k}={v}"); });
     }
 }

@@ -1,14 +1,32 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections;
+using System.Diagnostics.Tracing;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 
 namespace FoxTail.Extensions;
 
 public static class CollectionExtensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsEmpty(this ICollection collection) => collection.Count == 0;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsNotEmpty(this ICollection collection) => collection.Count != 0;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsEmpty<T>(this ICollection<T> collection) => collection.Count == 0;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsNotEmpty<T>(this ICollection<T> collection) => collection.Count != 0;
+
+    public static void Collect<TElement>(this IEnumerable<TElement> source)
+    {
+        using var enumerator = source.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            _ = enumerator.Current;
+        }
+    }
 
     public static void ForEach<TElement>(this IEnumerable<TElement> source, Action<TElement> action)
     {
@@ -18,20 +36,13 @@ public static class CollectionExtensions
         }
     }
 
-    public static void ForEach<TElement>(this ICollection<TElement> source, Action<TElement> action)
+    public static IEnumerable<TElement> OnEach<TElement>(this IEnumerable<TElement> source, Action<TElement> action)
     {
-        foreach (var item in source)
+        return source.Select((x, i) =>
         {
-            action(item);
-        }
-    }
-
-    public static void ForEach<TElement>(this IList<TElement> source, Action<TElement> action)
-    {
-        foreach (var item in source)
-        {
-            action(item);
-        }
+            action(x);
+            return x;
+        });
     }
 
     public static void ForEach<TKey, TValue>(this IDictionary<TKey, TValue> source,
@@ -43,71 +54,37 @@ public static class CollectionExtensions
         }
     }
 
-    public static IList<TElement> ForEachIndexed<TElement>(this IList<TElement> source, Action<int, TElement> action)
-    {
-        for (var i = 0; i < source.Count; i++)
-        {
-            action(i, source[i]);
-        }
-
-        return source;
-    }
-
-    /// <summary>
-    /// Foreach, then return the itself. <br />
-    /// <b> NOTICE: LINQ will not execute if you ignored return value!!! </b>
-    /// </summary>
-    /// <param name="source"></param>
-    /// <param name="action"></param>
-    /// <typeparam name="TElement"></typeparam>
-    /// <returns></returns>
-    public static IEnumerable<TElement> OnEach<TElement>(this IEnumerable<TElement> source, Action<TElement> action)
+    public static IEnumerable<KeyValuePair<TKey, TValue>> OnEach<TKey, TValue>(this IDictionary<TKey, TValue> source,
+        Action<TKey, TValue> action)
     {
         return source.Select(x =>
         {
-            action(x);
+            action(x.Key, x.Value);
             return x;
         });
     }
 
-    public static ICollection<TElement> OnEach<TElement>(this ICollection<TElement> source, Action<TElement> action)
+    public static void ForEach<TElement>(this IEnumerable<TElement> source, Action<TElement, int> action)
     {
+        var i = -1;
         foreach (var item in source)
         {
-            action(item);
-        }
+            checked
+            {
+                ++i;
+            }
 
-        return source;
+            action(item, i);
+        }
     }
 
-    public static IList<TElement> OnEach<TElement>(this IList<TElement> source, Action<TElement> action)
+    public static IEnumerable<TElement> OnEach<TElement>(this IEnumerable<TElement> source,
+        Action<TElement, int> action)
     {
-        foreach (var item in source)
+        return source.Select((x, i) =>
         {
-            action(item);
-        }
-
-        return source;
-    }
-
-    public static IDictionary<TKey, TValue> OnEach<TKey, TValue>(this IDictionary<TKey, TValue> source,
-        Action<TKey, TValue> action)
-    {
-        foreach (var item in source)
-        {
-            action(item.Key, item.Value);
-        }
-
-        return source;
-    }
-
-    public static IList<TElement> OnEachIndexed<TElement>(this IList<TElement> source, Action<int, TElement> action)
-    {
-        for (var i = 0; i < source.Count; i++)
-        {
-            action(i, source[i]);
-        }
-
-        return source;
+            action(x, i);
+            return x;
+        });
     }
 }
