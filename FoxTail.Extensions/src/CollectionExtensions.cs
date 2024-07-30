@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Diagnostics.Tracing;
 using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
 
 namespace FoxTail.Extensions;
 
@@ -12,12 +10,6 @@ public static class CollectionExtensions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsNotEmpty(this ICollection collection) => collection.Count != 0;
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsEmpty<T>(this ICollection<T> collection) => collection.Count == 0;
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsNotEmpty<T>(this ICollection<T> collection) => collection.Count != 0;
 
     public static void Collect<TElement>(this IEnumerable<TElement> source)
     {

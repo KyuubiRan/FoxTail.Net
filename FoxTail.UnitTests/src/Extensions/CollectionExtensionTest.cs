@@ -36,4 +36,14 @@ public class CollectionExtensionTest
 
         dict.ForEach((k, v) => { Console.WriteLine($"ForEach: {k}={v}"); });
     }
+
+    [Test]
+    public void EmptyTest()
+    {
+        var list = new List<int>();
+        Assert.That(list.IsEmpty(), Is.True);
+        
+        list.Add(1);
+        Assert.That(list.IsNotEmpty(), Is.True);
+    }
 }
