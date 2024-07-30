@@ -9,7 +9,7 @@
         <Authors>KyuubiRan</Authors>
         <Title>FoxTail.Common</Title>
         <PackageProjectUrl>https://github.com/KyuubiRan/FoxTail.Net</PackageProjectUrl>
-        <Version>0.0.5</Version>
+        <Version>0.0.6</Version>
         <Description>A functional utility library for C#.</Description>
         <PackageReadmeFile>README.MD</PackageReadmeFile>
         <RepositoryUrl>https://github.com/KyuubiRan/FoxTail.Net</RepositoryUrl>
