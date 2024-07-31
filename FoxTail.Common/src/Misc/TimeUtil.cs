@@ -8,10 +8,10 @@ public static class TimeUtil
     public static long CurrentTimeSecondsUtc => (long)DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalSeconds;
     public static long CurrentTimeSeconds => (long)DateTime.Now.Subtract(DateTime.UnixEpoch).TotalSeconds;
     
-    public static long DateTimeToMillisUtc(DateTime time) => (long)time.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
-    public static long DateTimeToMillis(DateTime time) => (long)time.ToUniversalTime().Subtract(DateTime.UnixEpoch).TotalMilliseconds;
-    public static long DateTimeToSecondsUtc(DateTime time) => (long)time.Subtract(DateTime.UnixEpoch).TotalSeconds;
-    public static long DateTimeToSeconds(DateTime time) => (long)time.ToUniversalTime().Subtract(DateTime.UnixEpoch).TotalSeconds;
+    public static long DateTimeToMillisUtc(DateTime time) => (long)time.ToUniversalTime().Subtract(DateTime.UnixEpoch).TotalMilliseconds;
+    public static long DateTimeToMillis(DateTime time) => (long)time.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
+    public static long DateTimeToSecondsUtc(DateTime time) => (long)time.ToUniversalTime().Subtract(DateTime.UnixEpoch).TotalSeconds;
+    public static long DateTimeToSeconds(DateTime time) => (long)time.Subtract(DateTime.UnixEpoch).TotalSeconds;
     
     
     public static DateTime DateTimeFromMillisUtc(long millis) => DateTime.UnixEpoch.AddMilliseconds(millis);
