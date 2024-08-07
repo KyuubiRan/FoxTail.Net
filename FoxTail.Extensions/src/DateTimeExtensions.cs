@@ -33,4 +33,7 @@ public static class DateTimeExtensions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsLeapYear(this DateTime dateTime) => DateTime.IsLeapYear(dateTime.Year);
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsToday(this DateTime time) => time.Date == DateTime.Today;
 }
