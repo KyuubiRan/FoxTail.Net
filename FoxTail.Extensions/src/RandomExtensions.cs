@@ -1,4 +1,8 @@
-﻿namespace FoxTail.Extensions;
+﻿using System.Runtime.InteropServices;
+
+namespace FoxTail.Extensions;
+
+#if !FTE_RANDOM_DISABLED
 
 public static class RandomExtensions
 {
@@ -61,11 +65,33 @@ public static class RandomExtensions
     /// <summary>Returns a random integer that is within a specified range.</summary>
     /// <param name="random">The random instance.</param>
     /// <param name="range">The range of the random number returned.</param>
-     /// <returns>
+    /// <returns>
     /// A 32-bit signed integer in the <paramref name="range"/>;
     /// </returns>
     public static int Next(this Random random, Range range)
     {
         return random.Next(range.Start.Value, range.End.Value);
     }
+
+    /// <summary>
+    /// Returns a random integer that is within a specified range.
+    /// See also <see cref="Random.Shuffle{T}(System.Span{T})"/>.
+    /// </summary>
+    /// <param name="random">The random instance.</param>
+    /// <param name="list">The list.</param>
+    /// <typeparam name="T">Element type.</typeparam>
+    /// <returns>Shuffled list.</returns>
+    public static List<T> Shuffle<T>(this Random random, List<T>? list)
+    {
+        if (list == null)
+            return [];
+        if (list.Count == 0)
+            return list;
+
+        var span = CollectionsMarshal.AsSpan(list);
+        random.Shuffle(span);
+        return list;
+    }
 }
+
+#endif
