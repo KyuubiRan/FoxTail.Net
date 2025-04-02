@@ -3,6 +3,8 @@ using System.Runtime.CompilerServices;
 
 namespace FoxTail.Extensions;
 
+#if !FTE_COLLECTION_DISABLED
+
 public static class CollectionExtensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -38,7 +40,7 @@ public static class CollectionExtensions
     }
 
     public static void ForEach<TKey, TValue>(this IDictionary<TKey, TValue> source,
-        Action<TKey, TValue> action)
+                                             Action<TKey, TValue> action)
     {
         foreach (var item in source)
         {
@@ -47,7 +49,7 @@ public static class CollectionExtensions
     }
 
     public static IEnumerable<KeyValuePair<TKey, TValue>> OnEach<TKey, TValue>(this IDictionary<TKey, TValue> source,
-        Action<TKey, TValue> action)
+                                                                               Action<TKey, TValue> action)
     {
         return source.Select(x =>
         {
@@ -71,7 +73,7 @@ public static class CollectionExtensions
     }
 
     public static IEnumerable<TElement> OnEach<TElement>(this IEnumerable<TElement> source,
-        Action<TElement, int> action)
+                                                         Action<TElement, int> action)
     {
         return source.Select((x, i) =>
         {
@@ -79,4 +81,13 @@ public static class CollectionExtensions
             return x;
         });
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string JoinToString<T>(this IEnumerable<T> source, string separator) =>
+        string.Join(separator, source);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string JoinToString<T>(this IEnumerable<T> source, char separator) => string.Join(separator, source);
 }
+
+#endif

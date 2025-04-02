@@ -2,6 +2,8 @@
 
 namespace FoxTail.Extensions;
 
+#if !FTE_DATETIME_DISABLED
+
 public static class DateTimeExtensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -37,3 +39,5 @@ public static class DateTimeExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsToday(this DateTime time) => time.Date == DateTime.Today;
 }
+
+#endif

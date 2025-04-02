@@ -3,6 +3,8 @@ using System.Text;
 
 namespace FoxTail.Extensions;
 
+#if !FTE_STRING_DISABLED
+
 public static class StringExtensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -77,3 +79,5 @@ public static class StringExtensions
         return string.IsNullOrWhiteSpace(value) ? replaced() : value;
     }
 }
+
+#endif
