@@ -12,7 +12,7 @@
         <Description>A functional utility library for C#.</Description>
         <PackageReadmeFile>README.MD</PackageReadmeFile>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <LangVersion>14</LangVersion>
+        <LangVersion>13</LangVersion>
         <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     </PropertyGroup>
 
