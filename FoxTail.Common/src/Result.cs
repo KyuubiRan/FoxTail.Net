@@ -3,7 +3,7 @@ using System.Runtime.ExceptionServices;
 
 namespace FoxTail.Common;
 
-public struct Result<T>
+public readonly struct Result<T>
 {
     internal struct Failure
     {
@@ -11,12 +11,12 @@ public struct Result<T>
         public Exception Exception => ExceptionDispatchInfo.SourceException;
     }
 
-    internal object? Value { get; private set; }
+    private object? Value { get; }
 
     public bool IsSuccess => Value is not Failure;
     public bool IsFailure => Value is Failure;
 
-    internal Result(object? value)
+    private Result(object? value)
     {
         Value = value;
     }
