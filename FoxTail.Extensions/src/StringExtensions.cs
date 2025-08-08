@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace FoxTail.Extensions;
@@ -30,7 +31,7 @@ public static class StringExtensions
     {
         return (enc ?? Encoding.UTF8).GetString(bytes, index, count);
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsDigit(this char c)
     {
@@ -38,19 +39,19 @@ public static class StringExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string Format(this string value, params object[] args)
+    public static string Format([StringSyntax("CompositeFormat")] this string format, params object?[] args)
     {
-        return string.Format(value, args);
+        return string.Format(format, args);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsNullOrEmpty(this string? value)
+    public static bool IsNullOrEmpty([NotNullWhen(false)] this string? value)
     {
         return string.IsNullOrEmpty(value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsNullOrWhiteSpace(this string? value)
+    public static bool IsNullOrWhiteSpace([NotNullWhen(false)] this string? value)
     {
         return string.IsNullOrWhiteSpace(value);
     }
