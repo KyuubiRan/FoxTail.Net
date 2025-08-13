@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
@@ -9,6 +10,11 @@ public class BiDictionary<TKey, TValue> : Dictionary<TKey, TValue>
     where TValue : notnull
 {
     private readonly Dictionary<TValue, TKey> _reverseDictionary;
+
+    /// <summary>
+    /// Access to the reverse dictionary, which maps values to keys.
+    /// </summary>
+    public ReadOnlyDictionary<TValue, TKey> Reversed => _reverseDictionary.AsReadOnly();
 
     public BiDictionary()
     {
@@ -142,5 +148,21 @@ public class BiDictionary<TKey, TValue> : Dictionary<TKey, TValue>
     public Dictionary<TValue, TKey>.Enumerator GetReverseEnumerator()
     {
         return _reverseDictionary.GetEnumerator();
+    }
+
+    public void AddRange(IEnumerable<KeyValuePair<TKey, TValue>> items)
+    {
+        foreach (var item in items)
+        {
+            Add(item);
+        }
+    }
+
+    public void AddRange(IEnumerable<KeyValuePair<TValue, TKey>> items)
+    {
+        foreach (var item in items)
+        {
+            Add(item.Key, item.Value);
+        }
     }
 }
