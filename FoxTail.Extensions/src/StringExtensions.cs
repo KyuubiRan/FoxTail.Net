@@ -57,25 +57,27 @@ public static class StringExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string IfNullOrEmpty(this string? value, string replaced)
+    [return: NotNullIfNotNull(nameof(replaced))]
+    public static string? IfNullOrEmpty(this string? value, string? replaced)
     {
         return string.IsNullOrEmpty(value) ? replaced : value;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string IfNullOrEmpty(this string? value, Func<string> replaced)
+    public static string? IfNullOrEmpty(this string? value, Func<string?> replaced)
     {
         return string.IsNullOrEmpty(value) ? replaced() : value;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string IfNullOrWhiteSpace(this string? value, string replaced)
+    [return: NotNullIfNotNull(nameof(replaced))]
+    public static string? IfNullOrWhiteSpace(this string? value, string? replaced)
     {
         return string.IsNullOrWhiteSpace(value) ? replaced : value;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string IfNullOrWhiteSpace(this string? value, Func<string> replaced)
+    public static string? IfNullOrWhiteSpace(this string? value, Func<string?> replaced)
     {
         return string.IsNullOrWhiteSpace(value) ? replaced() : value;
     }
