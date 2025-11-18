@@ -1,6 +1,6 @@
-﻿namespace FoxTail.UnitTests.Extensions;
+﻿using FoxTail.Extensions;
 
-using FoxTail.Extensions;
+namespace FoxTail.UnitTests.Extensions;
 
 public class StringExtensionsTest
 {
@@ -13,42 +13,62 @@ public class StringExtensionsTest
         const string str4 = "Hello {0}";
 
         Console.WriteLine("----------------------------------------------------------");
-        
+
         Console.WriteLine("str1 IsNullOrEmpty: " + str1.IsNullOrEmpty());
         Console.WriteLine("str2 IsNullOrEmpty: " + str2.IsNullOrEmpty());
         Console.WriteLine("str1 IsNullOrWhiteSpace: " + str1.IsNullOrWhiteSpace());
         Console.WriteLine("str2 IsNullOrWhiteSpace: " + str2.IsNullOrWhiteSpace());
-        
+
         Console.WriteLine("----------------------------------------------------------");
 
         Console.WriteLine("str1 IfNullOrEmpty: " + str1.IfNullOrEmpty("Replaced"));
         Console.WriteLine("str2 IfNullOrEmpty: " + str2.IfNullOrEmpty("Replaced"));
         Console.WriteLine("str1 IfNullOrEmpty: " + str1.IfNullOrEmpty(() => "Replaced"));
         Console.WriteLine("str2 IfNullOrEmpty: " + str2.IfNullOrEmpty(() => "Replaced"));
-        
+
         Console.WriteLine("----------------------------------------------------------");
-        
+
         Console.WriteLine("str1 IfNullOrWhiteSpace: " + str1.IfNullOrWhiteSpace("Replaced"));
         Console.WriteLine("str2 IfNullOrWhiteSpace: " + str2.IfNullOrWhiteSpace("Replaced"));
         Console.WriteLine("str1 IfNullOrWhiteSpace: " + str1.IfNullOrWhiteSpace(() => "Replaced"));
         Console.WriteLine("str2 IfNullOrWhiteSpace: " + str2.IfNullOrWhiteSpace(() => "Replaced"));
-        
+
         Console.WriteLine("----------------------------------------------------------");
 
         Console.WriteLine("str1 IsDigit: " + str1[0].IsDigit());
         Console.WriteLine("str3 IsDigit: " + str3[0].IsDigit());
-        
+
         Console.WriteLine("----------------------------------------------------------");
 
         Console.WriteLine("str4 Format: " + str4.Format("World"));
-        
+
         Console.WriteLine("----------------------------------------------------------");
-        
+
         var barr = str1.ToByteArray();
         Console.WriteLine("str1 ToByteArray: " + string.Join(", ", barr));
         var barrs = barr.ByteArrayToString();
         Console.WriteLine("str1 ByteArrayToString: " + barrs);
-        
+
         Console.WriteLine("----------------------------------------------------------");
+    }
+
+    [Test]
+    public void Test2()
+    {
+        string? str = null;
+        try
+        {
+            // This should throw an exception
+            // IDE hint: Dereference of a possibly null reference
+            Console.WriteLine(str.Length);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+        str = str.IfNullOrWhiteSpace("test");
+        
+        // Now this should be safe, and no IDE warning
+        Console.WriteLine(str.Length);
     }
 }
