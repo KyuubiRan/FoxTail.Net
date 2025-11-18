@@ -7,4 +7,9 @@
 /.idea/
 /.vscode/
 /.vs/
+
 /FoxTail.Net.sln.DotSettings.user
+/FoxTail.Common/FoxTail.Common.csproj.user
+/FoxTail.Extensions/FoxTail.Extensions.csproj.user
+/FoxTail.Extensions/Properties/PublishProfiles
+/FoxTail.Common/Properties/PublishProfiles
