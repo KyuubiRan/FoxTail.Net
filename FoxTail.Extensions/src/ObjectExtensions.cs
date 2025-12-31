@@ -11,7 +11,9 @@ public static class ObjectExtensions
 // Net 10 property extensions support
 #if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
         public bool IsNull => obj == null;
+
         public bool IsNotNull => obj != null;
+
 #else
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsNull() => obj == null;

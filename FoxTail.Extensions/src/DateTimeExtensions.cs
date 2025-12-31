@@ -11,19 +11,31 @@ public static class DateTimeExtensions
 // Net 10 property extensions support
 #if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
         public bool IsMonday => dateTime.DayOfWeek == DayOfWeek.Monday;
+
         public bool IsTuesday => dateTime.DayOfWeek == DayOfWeek.Tuesday;
+
         public bool IsWednesday => dateTime.DayOfWeek == DayOfWeek.Wednesday;
+
         public bool IsThursday => dateTime.DayOfWeek == DayOfWeek.Thursday;
+
         public bool IsFriday => dateTime.DayOfWeek == DayOfWeek.Friday;
+
         public bool IsSaturday => dateTime.DayOfWeek == DayOfWeek.Saturday;
+
         public bool IsSunday => dateTime.DayOfWeek == DayOfWeek.Sunday;
+
         public bool IsWeekend => dateTime.IsSaturday || dateTime.IsSunday;
+
         public bool IsWeekday => !dateTime.IsWeekend;
+
         public bool IsLeapYear => DateTime.IsLeapYear(dateTime.Year);
+
         public bool IsToday => dateTime.Date == DateTime.Today;
 
         public long UnixTimeSeconds => ((DateTimeOffset)dateTime).ToUnixTimeSeconds();
+
         public long UnixTimeMilliseconds => ((DateTimeOffset)dateTime).ToUnixTimeMilliseconds();
+
 #else
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsMonday() => dateTime.DayOfWeek == DayOfWeek.Monday;

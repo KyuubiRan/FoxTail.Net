@@ -32,7 +32,9 @@ public static class StringExtensions
 // Net 10 property extensions support        
 #if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
         public bool IsEmptyOrNull => string.IsNullOrEmpty(value);
+
         public bool IsWhiteSpaceOrNull => string.IsNullOrWhiteSpace(value);
+
 #else
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsEmptyOrNull()
@@ -105,6 +107,7 @@ public static class StringExtensions
 // Net 10 property extensions support        
 #if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
         public bool IsDigitChar => char.IsDigit(c);
+
 #else
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsDigitChar()

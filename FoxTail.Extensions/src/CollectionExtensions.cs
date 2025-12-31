@@ -12,7 +12,9 @@ public static class CollectionExtensions
 // Net 10 property extensions support
 #if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
         public bool IsEmpty => collection.Count == 0;
+
         public bool IsNotEmpty => collection.Count != 0;
+
 #else
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsEmpty() => collection.Count == 0;

@@ -11,6 +11,7 @@ public static class BoolExtensions
 // Net 10 property extensions support
 #if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
         public bool Not => !b;
+
 #else
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Not() => !b;
