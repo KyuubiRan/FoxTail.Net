@@ -16,5 +16,12 @@ public class ListExtensionTest
         {
             Console.WriteLine(t);
         }
+        
+        List<int>? list2 = null;
+        Assert.Multiple(() =>
+        {
+            Assert.That(list2.OrEmpty().IsEmpty, Is.True);
+            Assert.That(list2, Is.Null);
+        });
     }
 }

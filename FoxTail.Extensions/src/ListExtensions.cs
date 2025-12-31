@@ -35,6 +35,19 @@ public static class ListExtensions
             return list;
         }
     }
+
+    extension<T>(List<T>? list)
+    {
+        /// <summary>
+        /// Returns an empty list if the list is null.
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public List<T> OrEmpty()
+        {
+            return list ?? [];
+        }
+    }
 }
 
 #endif
