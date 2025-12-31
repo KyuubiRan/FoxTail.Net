@@ -9,10 +9,10 @@ public class CollectionExtensionTest
     {
         List<int> l = [2, 3, 4, 5, 6];
         l.OnEach(Console.WriteLine)
-            .ToList()
-            .Also(_=> { Console.WriteLine("------------------------------------------"); })
-            .Select(x => x * 2)
-            .ForEach(Console.WriteLine);
+         .ToList()
+         .Also(_ => { Console.WriteLine("------------------------------------------"); })
+         .Select(x => x * 2)
+         .ForEach(Console.WriteLine);
     }
 
     [Test]
@@ -41,9 +41,9 @@ public class CollectionExtensionTest
     public void EmptyTest()
     {
         var list = new List<int>();
-        Assert.That(list.IsEmpty(), Is.True);
-        
+        Assert.That(list.IsEmpty, Is.True);
+
         list.Add(1);
-        Assert.That(list.IsNotEmpty(), Is.True);
+        Assert.That(list.IsNotEmpty, Is.True);
     }
 }

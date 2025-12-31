@@ -13,42 +13,41 @@ public class StringExtensionsTest
         const string str4 = "Hello {0}";
 
         Console.WriteLine("----------------------------------------------------------");
-        
-        Console.WriteLine("str1 IsNullOrEmpty: " + str1.IsNullOrEmpty());
-        Console.WriteLine("str2 IsNullOrEmpty: " + str2.IsNullOrEmpty());
-        Console.WriteLine("str1 IsNullOrWhiteSpace: " + str1.IsNullOrWhiteSpace());
-        Console.WriteLine("str2 IsNullOrWhiteSpace: " + str2.IsNullOrWhiteSpace());
-        
+        Console.WriteLine("str1 IsEmptyOrNull: " + str1.IsEmptyOrNull);
+        Console.WriteLine("str2 IsEmptyOrNull: " + str2.IsEmptyOrNull);
+        Console.WriteLine("str1 IsWhiteSpaceOrNull: " + str1.IsWhiteSpaceOrNull);
+        Console.WriteLine("str2 IsWhiteSpaceOrNull: " + str2.IsWhiteSpaceOrNull);
+
         Console.WriteLine("----------------------------------------------------------");
 
-        Console.WriteLine("str1 IfNullOrEmpty: " + str1.IfNullOrEmpty("Replaced"));
-        Console.WriteLine("str2 IfNullOrEmpty: " + str2.IfNullOrEmpty("Replaced"));
-        Console.WriteLine("str1 IfNullOrEmpty: " + str1.IfNullOrEmpty(() => "Replaced"));
-        Console.WriteLine("str2 IfNullOrEmpty: " + str2.IfNullOrEmpty(() => "Replaced"));
-        
-        Console.WriteLine("----------------------------------------------------------");
-        
-        Console.WriteLine("str1 IfNullOrWhiteSpace: " + str1.IfNullOrWhiteSpace("Replaced"));
-        Console.WriteLine("str2 IfNullOrWhiteSpace: " + str2.IfNullOrWhiteSpace("Replaced"));
-        Console.WriteLine("str1 IfNullOrWhiteSpace: " + str1.IfNullOrWhiteSpace(() => "Replaced"));
-        Console.WriteLine("str2 IfNullOrWhiteSpace: " + str2.IfNullOrWhiteSpace(() => "Replaced"));
-        
+        Console.WriteLine("str1 IfNullOrEmpty: " + str1.IfEmptyOrNull("Replaced"));
+        Console.WriteLine("str2 IfNullOrEmpty: " + str2.IfEmptyOrNull("Replaced"));
+        Console.WriteLine("str1 IfNullOrEmpty: " + str1.IfEmptyOrNull(() => "Replaced"));
+        Console.WriteLine("str2 IfNullOrEmpty: " + str2.IfEmptyOrNull(() => "Replaced"));
+
         Console.WriteLine("----------------------------------------------------------");
 
-        Console.WriteLine("str1 IsDigit: " + str1[0].IsDigit());
-        Console.WriteLine("str3 IsDigit: " + str3[0].IsDigit());
-        
+        Console.WriteLine("str1 IfNullOrWhiteSpace: " + str1.IfWhiteSpaceOrNull("Replaced"));
+        Console.WriteLine("str2 IfNullOrWhiteSpace: " + str2.IfWhiteSpaceOrNull("Replaced"));
+        Console.WriteLine("str1 IfNullOrWhiteSpace: " + str1.IfWhiteSpaceOrNull(() => "Replaced"));
+        Console.WriteLine("str2 IfNullOrWhiteSpace: " + str2.IfWhiteSpaceOrNull(() => "Replaced"));
+
         Console.WriteLine("----------------------------------------------------------");
 
-        Console.WriteLine("str4 Format: " + str4.Format("World"));
-        
+        Console.WriteLine("str1[0] IsDigit: " + str1[0].IsDigitChar);
+        Console.WriteLine("str3[0] IsDigit: " + str3[0].IsDigitChar);
+
         Console.WriteLine("----------------------------------------------------------");
-        
+
+        Console.WriteLine("str4 Format: " + str4.Fmt("World"));
+
+        Console.WriteLine("----------------------------------------------------------");
+
         var barr = str1.ToByteArray();
         Console.WriteLine("str1 ToByteArray: " + string.Join(", ", barr));
         var barrs = barr.ByteArrayToString();
         Console.WriteLine("str1 ByteArrayToString: " + barrs);
-        
+
         Console.WriteLine("----------------------------------------------------------");
     }
 }

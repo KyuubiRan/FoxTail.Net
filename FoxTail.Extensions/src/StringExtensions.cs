@@ -8,78 +8,123 @@ namespace FoxTail.Extensions;
 
 public static class StringExtensions
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static byte[] ToByteArray(this string str, Encoding? enc = null)
+    extension(string str)
     {
-        return (enc ?? Encoding.UTF8).GetBytes(str);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte[] ToByteArray(Encoding? enc = null)
+        {
+            return (enc ?? Encoding.UTF8).GetBytes(str);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte[] ToByteArray(int index, int count, Encoding? enc = null)
+        {
+            return (enc ?? Encoding.UTF8).GetBytes(str, index, count);
+        }
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static byte[] ToByteArray(this string str, int index, int count, Encoding? enc = null)
+    /// <summary>
+    /// Rename to `IsEmptyOrNull` and `IsWhiteSpaceOrNull` avoid conflict `string.IsNullOrEmpty` and `string.IsNullOrWhiteSpace`
+    /// </summary>
+    /// <param name="value"></param>
+    extension([NotNullWhen(false)] string? value)
     {
-        return (enc ?? Encoding.UTF8).GetBytes(str, index, count);
+// Net 10 property extensions support        
+#if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
+        public bool IsEmptyOrNull => string.IsNullOrEmpty(value);
+        public bool IsWhiteSpaceOrNull => string.IsNullOrWhiteSpace(value);
+#else
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool IsEmptyOrNull()
+        {
+            return string.IsNullOrEmpty(value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool IsWhiteSpaceOrNull()
+        {
+            return string.IsNullOrWhiteSpace(value);
+        }
+#endif
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string ByteArrayToString(this byte[] bytes, Encoding? enc = null)
+    /// <summary>
+    /// Changed the name to `IfNullOrEmpty` and `IfNullOrWhiteSpace` here.
+    /// </summary>
+    /// <param name="value"></param>
+    extension(string? value)
     {
-        return (enc ?? Encoding.UTF8).GetString(bytes);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [return: NotNullIfNotNull(nameof(replaced))]
+        public string? IfEmptyOrNull(string? replaced)
+        {
+            return string.IsNullOrEmpty(value) ? replaced : value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public string? IfEmptyOrNull(Func<string?> replaced)
+        {
+            return string.IsNullOrEmpty(value) ? replaced() : value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [return: NotNullIfNotNull(nameof(replaced))]
+        public string? IfWhiteSpaceOrNull(string? replaced)
+        {
+            return string.IsNullOrWhiteSpace(value) ? replaced : value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public string? IfWhiteSpaceOrNull(Func<string?> replaced)
+        {
+            return string.IsNullOrWhiteSpace(value) ? replaced() : value;
+        }
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string ByteArrayToString(this byte[] bytes, int index, int count, Encoding? enc = null)
+    extension(byte[] bytes)
     {
-        return (enc ?? Encoding.UTF8).GetString(bytes, index, count);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public string ByteArrayToString(Encoding? enc = null)
+        {
+            return (enc ?? Encoding.UTF8).GetString(bytes);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public string ByteArrayToString(int index, int count, Encoding? enc = null)
+        {
+            return (enc ?? Encoding.UTF8).GetString(bytes, index, count);
+        }
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsDigit(this char c)
+    /// <summary>
+    /// Rename to `IsDigitChar` to avoid conflict with `char.IsDigit`
+    /// </summary>
+    /// <param name="c"></param>
+    extension(char c)
     {
-        return char.IsDigit(c);
+// Net 10 property extensions support        
+#if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
+        public bool IsDigitChar => char.IsDigit(c);
+#else
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool IsDigitChar()
+        {
+            return char.IsDigit(c);
+        }
+#endif
     }
 
+
+    /// <summary>
+    /// Rename to `Fmt` to avoid conflict with `string.Format`
+    /// </summary>
+    /// <param name="format"></param>
+    /// <param name="args"></param>
+    /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string Format([StringSyntax("CompositeFormat")] this string format, params object?[] args)
+    public static string Fmt([StringSyntax("CompositeFormat")] this string format, params object?[] args)
     {
         return string.Format(format, args);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsNullOrEmpty([NotNullWhen(false)] this string? value)
-    {
-        return string.IsNullOrEmpty(value);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsNullOrWhiteSpace([NotNullWhen(false)] this string? value)
-    {
-        return string.IsNullOrWhiteSpace(value);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [return: NotNullIfNotNull(nameof(replaced))]
-    public static string? IfNullOrEmpty(this string? value, string? replaced)
-    {
-        return string.IsNullOrEmpty(value) ? replaced : value;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string? IfNullOrEmpty(this string? value, Func<string?> replaced)
-    {
-        return string.IsNullOrEmpty(value) ? replaced() : value;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [return: NotNullIfNotNull(nameof(replaced))]
-    public static string? IfNullOrWhiteSpace(this string? value, string? replaced)
-    {
-        return string.IsNullOrWhiteSpace(value) ? replaced : value;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string? IfNullOrWhiteSpace(this string? value, Func<string?> replaced)
-    {
-        return string.IsNullOrWhiteSpace(value) ? replaced() : value;
     }
 }
 

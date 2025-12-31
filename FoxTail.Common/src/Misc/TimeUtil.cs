@@ -13,7 +13,6 @@ public static class TimeUtil
     public static long DateTimeToSecondsUtc(DateTime time) => (long)time.ToUniversalTime().Subtract(DateTime.UnixEpoch).TotalSeconds;
     public static long DateTimeToSeconds(DateTime time) => (long)time.Subtract(DateTime.UnixEpoch).TotalSeconds;
     
-    
     public static DateTime DateTimeFromMillisUtc(long millis) => DateTime.UnixEpoch.AddMilliseconds(millis);
     public static DateTime DateTimeFromMillis(long millis) => DateTime.UnixEpoch.AddMilliseconds(millis).ToLocalTime();
     public static DateTime DateTimeFromSecondsUtc(long seconds) => DateTime.UnixEpoch.AddSeconds(seconds);

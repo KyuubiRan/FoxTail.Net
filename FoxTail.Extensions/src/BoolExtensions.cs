@@ -6,13 +6,16 @@ namespace FoxTail.Extensions;
 
 public static class BoolExtensions
 {
-    /// <summary>
-    /// Reverse the boolean value.
-    /// </summary>
-    /// <param name="value">The bool value</param>
-    /// <returns>Reversed bool value</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool Not(this bool value) => !value;
+    extension(bool b)
+    {
+// Net 10 property extensions support
+#if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
+        public bool Not => !b;
+#else
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Not() => !b;
+#endif
+    }
 }
 
 #endif

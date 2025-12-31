@@ -8,32 +8,32 @@ public class RandomExtensionsTest
     public void NextTest()
     {
         var random = new Random();
-        for (int i = 0; i < 10; i++)
+        for (var i = 0; i < 10; i++)
         {
             var result = random.NextSingle(10);
             Console.WriteLine(result);
-            Assert.IsTrue(result is >= 0 and < 10);
+            Assert.That(result is >= 0 and < 10, Is.True);
         }
         
-        for (int i = 0; i < 10; i++)
+        for (var i = 0; i < 10; i++)
         {
             var result = random.NextSingle(-10, 10);
             Console.WriteLine(result);
-            Assert.IsTrue(result is >= -10 and < 10);
+            Assert.That(result is >= -10 and < 10, Is.True);
         }   
         
-        for (int i = 0; i < 10; i++)
+        for (var i = 0; i < 10; i++)
         {
             var result = random.NextDouble(1000);
             Console.WriteLine(result);
-            Assert.IsTrue(result is >= 0 and < 1000);
+            Assert.That(result is >= 0 and < 1000, Is.True);
         }
         
-        for (int i = 0; i < 10; i++)
+        for (var i = 0; i < 10; i++)
         {
             var result = random.NextDouble(-100, 100);
             Console.WriteLine(result);
-            Assert.IsTrue(result is >= -100 and < 100);
+            Assert.That(result is >= -100 and < 100, Is.True);
         }
     }
 }

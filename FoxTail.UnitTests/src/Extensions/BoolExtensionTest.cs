@@ -12,8 +12,8 @@ public class BoolExtensionTest
 
         Assert.Multiple(() =>
         {
-            Assert.That(a.Not(), Is.False);
-            Assert.That(b.Not(), Is.True);
+            Assert.That(a.Not, Is.False);
+            Assert.That(b.Not, Is.True);
         });
     }
 }

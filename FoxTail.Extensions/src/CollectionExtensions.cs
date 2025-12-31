@@ -7,87 +7,102 @@ namespace FoxTail.Extensions;
 
 public static class CollectionExtensions
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsEmpty(this ICollection collection) => collection.Count == 0;
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsNotEmpty(this ICollection collection) => collection.Count != 0;
-
-    public static void Collect<TElement>(this IEnumerable<TElement> source)
+    extension(ICollection collection)
     {
-        using var enumerator = source.GetEnumerator();
-        while (enumerator.MoveNext())
-        {
-            _ = enumerator.Current;
-        }
+// Net 10 property extensions support
+#if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
+        public bool IsEmpty => collection.Count == 0;
+        public bool IsNotEmpty => collection.Count != 0;
+#else
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool IsEmpty() => collection.Count == 0;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool IsNotEmpty() => collection.Count != 0;
+#endif
     }
 
-    public static void ForEach<TElement>(this IEnumerable<TElement> source, Action<TElement> action)
+    extension<TElement>(IEnumerable<TElement> source)
     {
-        foreach (var item in source)
+        public void Collect()
         {
-            action(item);
-        }
-    }
-
-    public static IEnumerable<TElement> OnEach<TElement>(this IEnumerable<TElement> source, Action<TElement> action)
-    {
-        return source.Select((x, i) =>
-        {
-            action(x);
-            return x;
-        });
-    }
-
-    public static void ForEach<TKey, TValue>(this IDictionary<TKey, TValue> source,
-                                             Action<TKey, TValue> action)
-    {
-        foreach (var item in source)
-        {
-            action(item.Key, item.Value);
-        }
-    }
-
-    public static IEnumerable<KeyValuePair<TKey, TValue>> OnEach<TKey, TValue>(this IDictionary<TKey, TValue> source,
-                                                                               Action<TKey, TValue> action)
-    {
-        return source.Select(x =>
-        {
-            action(x.Key, x.Value);
-            return x;
-        });
-    }
-
-    public static void ForEach<TElement>(this IEnumerable<TElement> source, Action<TElement, int> action)
-    {
-        var i = -1;
-        foreach (var item in source)
-        {
-            checked
+            using var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                ++i;
+                _ = enumerator.Current;
             }
+        }
 
-            action(item, i);
+        public void ForEach(Action<TElement> action)
+        {
+            foreach (var item in source)
+            {
+                action(item);
+            }
+        }
+
+        public IEnumerable<TElement> OnEach(Action<TElement> action)
+        {
+            return source.Select((x, i) =>
+            {
+                action(x);
+                return x;
+            });
         }
     }
 
-    public static IEnumerable<TElement> OnEach<TElement>(this IEnumerable<TElement> source,
-                                                         Action<TElement, int> action)
+    extension<TKey, TValue>(IDictionary<TKey, TValue> source)
     {
-        return source.Select((x, i) =>
+        public void ForEach(Action<TKey, TValue> action)
         {
-            action(x, i);
-            return x;
-        });
+            foreach (var item in source)
+            {
+                action(item.Key, item.Value);
+            }
+        }
+
+        public IEnumerable<KeyValuePair<TKey, TValue>> OnEach(Action<TKey, TValue> action)
+        {
+            return source.Select(x =>
+            {
+                action(x.Key, x.Value);
+                return x;
+            });
+        }
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string JoinToString<T>(this IEnumerable<T> source, string separator) =>
-        string.Join(separator, source);
+    extension<TElement>(IEnumerable<TElement> source)
+    {
+        public void ForEach(Action<TElement, int> action)
+        {
+            var i = -1;
+            foreach (var item in source)
+            {
+                checked
+                {
+                    ++i;
+                }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string JoinToString<T>(this IEnumerable<T> source, char separator) => string.Join(separator, source);
+                action(item, i);
+            }
+        }
+
+        public IEnumerable<TElement> OnEach(Action<TElement, int> action)
+        {
+            return source.Select((x, i) =>
+            {
+                action(x, i);
+                return x;
+            });
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public string JoinToString(string separator) =>
+            string.Join(separator, source);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public string JoinToString(char separator) => string.Join(separator, source);
+    }
 }
 
 #endif

@@ -7,17 +7,15 @@ public class ObjectExtensionTest
     [Test]
     public void Test1()
     {
-        bool obj = new bool();
-        int letret = obj.Let(x =>
+        var bObj = false;
+        var letRet = bObj.Let(x =>
         {
             Console.WriteLine(x);
             return x ? 100 : -100;
         });
-        bool alsoret = obj.Also(Console.WriteLine);
+        Console.WriteLine(letRet);
+        var alsoRet = bObj.Also(Console.WriteLine);
 
-        alsoret.Let(x =>
-        {
-            Console.WriteLine(x);
-        });
+        alsoRet.Let(Console.WriteLine);
     }
 }

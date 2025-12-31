@@ -1,11 +1,12 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace FoxTail.Common.Exceptions;
 
 public static class ArgumentExceptionUtils
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void ThrowIf(bool val, string? message = null)
+    public static void ThrowIf([DoesNotReturnIf(true)] bool val, string? message = null)
     {
         if (val) throw new ArgumentException(message);
     }
@@ -17,7 +18,7 @@ public static class ArgumentExceptionUtils
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void ThrowIfNot(bool val, string? message = null)
+    public static void ThrowIfNot([DoesNotReturnIf(false)] bool val, string? message = null)
     {
         if (!val) throw new ArgumentException(message);
     }
