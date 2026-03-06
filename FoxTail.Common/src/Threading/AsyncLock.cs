@@ -4,13 +4,14 @@ public sealed class AsyncLock : IDisposable
 {
     private readonly SemaphoreSlim _sem = new(1, 1);
 
-    public struct LockReleaser(SemaphoreSlim s) : IDisposable
+    public struct LockReleaser(SemaphoreSlim slim) : IDisposable
     {
+        private SemaphoreSlim _slim = slim;
         public void Release() => Dispose();
 
         public void Dispose()
         {
-            var sem = Interlocked.Exchange(ref s!, null);
+            var sem = Interlocked.Exchange(ref _slim!, null);
             sem.Release();
         }
     }
