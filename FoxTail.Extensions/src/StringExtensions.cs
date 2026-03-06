@@ -1,122 +1,60 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+﻿#if !FTE_STRING_DISABLED
+// ReSharper disable ConvertToExtensionBlock
+
+using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace FoxTail.Extensions;
 
-#if !FTE_STRING_DISABLED
-
+/// <summary>
+/// Notice: Since version >= 0.2.0: IsNullOrEmpty and IsNullOrWhiteSpace are renamed to IsEmptyOrNull and IsWhiteSpaceOrNull to avoid conflict std lib methods.
+/// </summary>
 public static class StringExtensions
 {
-    extension(string str)
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public byte[] ToByteArray(Encoding? enc = null)
-        {
-            return (enc ?? Encoding.UTF8).GetBytes(str);
-        }
+    public static byte[] ToByteArray(this string str, Encoding? enc = null) => (enc ?? Encoding.UTF8).GetBytes(str);
+    public static byte[] ToByteArray(this string str, int index, int count, Encoding? enc = null) => (enc ?? Encoding.UTF8).GetBytes(str, index, count);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public byte[] ToByteArray(int index, int count, Encoding? enc = null)
-        {
-            return (enc ?? Encoding.UTF8).GetBytes(str, index, count);
-        }
-    }
-
-    /// <summary>
-    /// Rename to `IsEmptyOrNull` and `IsWhiteSpaceOrNull` avoid conflict `string.IsNullOrEmpty` and `string.IsNullOrWhiteSpace`
-    /// </summary>
-    /// <param name="value"></param>
+#if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
     extension([NotNullWhen(false)] string? value)
     {
-// Net 10 property extensions support        
-#if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
         public bool IsEmptyOrNull => string.IsNullOrEmpty(value);
-
         public bool IsWhiteSpaceOrNull => string.IsNullOrWhiteSpace(value);
-
+    }
 #else
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsEmptyOrNull()
-        {
-            return string.IsNullOrEmpty(value);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsWhiteSpaceOrNull()
-        {
-            return string.IsNullOrWhiteSpace(value);
-        }
+    public static bool IsEmptyOrNull([NotNullWhen(false)] this string? value) => string.IsNullOrEmpty(value);
+    public static bool IsWhiteSpaceOrNull([NotNullWhen(false)] this string? value) => string.IsNullOrWhiteSpace(value);
 #endif
-    }
 
-    /// <summary>
-    /// Changed the name to `IfNullOrEmpty` and `IfNullOrWhiteSpace` here.
-    /// </summary>
-    /// <param name="value"></param>
-    extension(string? value)
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [return: NotNullIfNotNull(nameof(replaced))]
-        public string? IfEmptyOrNull(string? replaced)
-        {
-            return string.IsNullOrEmpty(value) ? replaced : value;
-        }
+    [return: NotNullIfNotNull(nameof(replaced))]
+    public static string? IfEmptyOrNull(this string? value, string? replaced) => string.IsNullOrEmpty(value) ? replaced : value;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string? IfEmptyOrNull(Func<string?> replaced)
-        {
-            return string.IsNullOrEmpty(value) ? replaced() : value;
-        }
+    public static string? IfEmptyOrNull(this string? value, Func<string?> replaced) => string.IsNullOrEmpty(value) ? replaced() : value;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [return: NotNullIfNotNull(nameof(replaced))]
-        public string? IfWhiteSpaceOrNull(string? replaced)
-        {
-            return string.IsNullOrWhiteSpace(value) ? replaced : value;
-        }
+    [return: NotNullIfNotNull(nameof(replaced))]
+    public static string? IfWhiteSpaceOrNull(this string? value, string? replaced) => string.IsNullOrWhiteSpace(value) ? replaced : value;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string? IfWhiteSpaceOrNull(Func<string?> replaced)
-        {
-            return string.IsNullOrWhiteSpace(value) ? replaced() : value;
-        }
-    }
+    public static string? IfWhiteSpaceOrNull(this string? value, Func<string?> replaced) => string.IsNullOrWhiteSpace(value) ? replaced() : value;
 
-    extension(byte[] bytes)
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string ByteArrayToString(Encoding? enc = null)
-        {
-            return (enc ?? Encoding.UTF8).GetString(bytes);
-        }
+    public static string ByteArrayToString(this byte[] bytes, Encoding? enc = null) => (enc ?? Encoding.UTF8).GetString(bytes);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string ByteArrayToString(int index, int count, Encoding? enc = null)
-        {
-            return (enc ?? Encoding.UTF8).GetString(bytes, index, count);
-        }
-    }
+    public static string ByteArrayToString(this byte[] bytes, int index, int count, Encoding? enc = null) =>
+        (enc ?? Encoding.UTF8).GetString(bytes, index, count);
 
     /// <summary>
     /// Rename to `IsDigitChar` to avoid conflict with `char.IsDigit`
     /// </summary>
     /// <param name="c"></param>
-    extension(char c)
-    {
+
 // Net 10 property extensions support        
 #if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
+    extension(char c)
+    {
         public bool IsDigitChar => char.IsDigit(c);
-
-#else
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsDigitChar()
-        {
-            return char.IsDigit(c);
-        }
-#endif
     }
-
+#else
+    public static bool IsDigitChar(this char c) => char.IsDigit(c);
+#endif
 
     /// <summary>
     /// Rename to `Fmt` to avoid conflict with `string.Format`
@@ -124,7 +62,6 @@ public static class StringExtensions
     /// <param name="format"></param>
     /// <param name="args"></param>
     /// <returns></returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string Fmt([StringSyntax("CompositeFormat")] this string format, params object?[] args)
     {
         return string.Format(format, args);

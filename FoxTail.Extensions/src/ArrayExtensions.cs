@@ -1,19 +1,15 @@
-using System.Runtime.CompilerServices;
+#if !FTE_ARRAY_DISABLED
+// ReSharper disable ConvertToExtensionBlock
 
 namespace FoxTail.Extensions;
 
 public static class ArrayExtensions
 {
-    extension<T>(T[]? array)
-    {
-        /// <summary>
-        /// Returns an empty array if the array is null.
-        /// </summary>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T[] OrEmpty()
-        {
-            return array ?? [];
-        }
-    }
+    /// <summary>
+    /// Returns an empty array if the array is null.
+    /// </summary>
+    /// <returns></returns>
+    public static T[] OrEmpty<T>(this T[]? array) => array ?? [];
 }
+
+#endif

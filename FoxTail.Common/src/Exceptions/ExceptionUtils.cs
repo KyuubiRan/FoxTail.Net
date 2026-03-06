@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
+﻿using System.Runtime.ExceptionServices;
 
 namespace FoxTail.Common.Exceptions;
 
@@ -11,7 +10,6 @@ public static class ExceptionUtils
     /// <param name="action"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Result<T> RunCatching<T>(Func<T> action)
     {
         try
@@ -30,7 +28,6 @@ public static class ExceptionUtils
     /// </summary>
     /// <param name="action"></param>
     /// <returns></returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Result<object> RunCatching(Action action)
     {
         try

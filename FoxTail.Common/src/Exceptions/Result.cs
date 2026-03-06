@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
+﻿using System.Runtime.ExceptionServices;
 
 namespace FoxTail.Common.Exceptions;
 
@@ -21,7 +20,6 @@ public readonly struct Result<T>
         Value = value;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public T? GetOrDefault()
     {
         return Value is T t ? t : default;
@@ -49,7 +47,6 @@ public readonly struct Result<T>
         return action();
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Exception? ExceptionOrNull()
     {
         return Value is Failure f ? f.Exception : null;

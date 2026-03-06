@@ -1,108 +1,97 @@
-﻿using System.Collections;
-using System.Runtime.CompilerServices;
+﻿#if !FTE_COLLECTION_DISABLED
+// ReSharper disable ConvertToExtensionBlock
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FoxTail.Extensions;
 
-#if !FTE_COLLECTION_DISABLED
-
 public static class CollectionExtensions
 {
+#if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
     extension(ICollection collection)
     {
-// Net 10 property extensions support
-#if NET10_0_OR_GREATER && !FTE_DISABLE_PROPERTY_EXTENSIONS
         public bool IsEmpty => collection.Count == 0;
-
         public bool IsNotEmpty => collection.Count != 0;
-
+    }
 #else
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsEmpty() => collection.Count == 0;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsNotEmpty() => collection.Count != 0;
+    public static bool IsEmpty(this ICollection collection) => collection.Count == 0;
+    public static bool IsNotEmpty(this ICollection collection) => collection.Count != 0;
 #endif
+
+    public static void Collect<TElement>(this IEnumerable<TElement> source)
+    {
+        using var enumerator = source.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            _ = enumerator.Current;
+        }
     }
 
-    extension<TElement>(IEnumerable<TElement> source)
+    public static void ForEach<TElement>(this IEnumerable<TElement> source, Action<TElement> action)
     {
-        public void Collect()
+        foreach (var item in source)
         {
-            using var enumerator = source.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                _ = enumerator.Current;
-            }
+            action(item);
         }
-
-        public void ForEach(Action<TElement> action)
-        {
-            foreach (var item in source)
-            {
-                action(item);
-            }
-        }
-
-        public IEnumerable<TElement> OnEach(Action<TElement> action)
-        {
-            return source.Select((x, i) =>
-            {
-                action(x);
-                return x;
-            });
-        }
-
-        public void ForEach(Action<TElement, int> action)
-        {
-            var i = -1;
-            foreach (var item in source)
-            {
-                checked
-                {
-                    ++i;
-                }
-
-                action(item, i);
-            }
-        }
-
-        public IEnumerable<TElement> OnEach(Action<TElement, int> action)
-        {
-            return source.Select((x, i) =>
-            {
-                action(x, i);
-                return x;
-            });
-        }
-
-        public IEnumerable<(TElement, int)> Indexed() => source.Select((x, i) => (x, i));
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string JoinToString(string separator) =>
-            string.Join(separator, source);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string JoinToString(char separator) => string.Join(separator, source);
     }
 
-    extension<TKey, TValue>(IDictionary<TKey, TValue> source)
+    public static IEnumerable<TElement> OnEach<TElement>(this IEnumerable<TElement> source, Action<TElement> action)
     {
-        public void ForEach(Action<TKey, TValue> action)
+        return source.Select(x =>
         {
-            foreach (var item in source)
-            {
-                action(item.Key, item.Value);
-            }
-        }
+            action(x);
+            return x;
+        });
+    }
 
-        public IEnumerable<KeyValuePair<TKey, TValue>> OnEach(Action<TKey, TValue> action)
+    public static void ForEach<TElement>(this IEnumerable<TElement> source, Action<TElement, int> action)
+    {
+        var i = -1;
+        foreach (var item in source)
         {
-            return source.Select(x =>
+            checked
             {
-                action(x.Key, x.Value);
-                return x;
-            });
+                ++i;
+            }
+
+            action(item, i);
         }
+    }
+
+    public static IEnumerable<TElement> OnEach<TElement>(this IEnumerable<TElement> source, Action<TElement, int> action)
+    {
+        return source.Select((x, i) =>
+        {
+            action(x, i);
+            return x;
+        });
+    }
+
+    public static IEnumerable<(TElement, int)> Indexed<TElement>(this IEnumerable<TElement> source) => source.Select((x, i) => (x, i));
+
+    public static string JoinToString<TElement>(this IEnumerable<TElement> source, string separator) =>
+        string.Join(separator, source);
+
+    public static string JoinToString<TElement>(this IEnumerable<TElement> source, char separator) => string.Join(separator, source);
+
+    public static void ForEach<TKey, TValue>(this IDictionary<TKey, TValue> source, Action<TKey, TValue> action)
+    {
+        foreach (var item in source)
+        {
+            action(item.Key, item.Value);
+        }
+    }
+
+    public static IEnumerable<KeyValuePair<TKey, TValue>> OnEach<TKey, TValue>(this IDictionary<TKey, TValue> source, Action<TKey, TValue> action)
+    {
+        return source.Select(x =>
+        {
+            action(x.Key, x.Value);
+            return x;
+        });
     }
 }
 
