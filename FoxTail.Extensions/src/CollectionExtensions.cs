@@ -51,30 +51,7 @@ public static class CollectionExtensions
                 return x;
             });
         }
-    }
 
-    extension<TKey, TValue>(IDictionary<TKey, TValue> source)
-    {
-        public void ForEach(Action<TKey, TValue> action)
-        {
-            foreach (var item in source)
-            {
-                action(item.Key, item.Value);
-            }
-        }
-
-        public IEnumerable<KeyValuePair<TKey, TValue>> OnEach(Action<TKey, TValue> action)
-        {
-            return source.Select(x =>
-            {
-                action(x.Key, x.Value);
-                return x;
-            });
-        }
-    }
-
-    extension<TElement>(IEnumerable<TElement> source)
-    {
         public void ForEach(Action<TElement, int> action)
         {
             var i = -1;
@@ -98,12 +75,34 @@ public static class CollectionExtensions
             });
         }
 
+        public IEnumerable<(TElement, int)> Indexed() => source.Select((x, i) => (x, i));
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string JoinToString(string separator) =>
             string.Join(separator, source);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string JoinToString(char separator) => string.Join(separator, source);
+    }
+
+    extension<TKey, TValue>(IDictionary<TKey, TValue> source)
+    {
+        public void ForEach(Action<TKey, TValue> action)
+        {
+            foreach (var item in source)
+            {
+                action(item.Key, item.Value);
+            }
+        }
+
+        public IEnumerable<KeyValuePair<TKey, TValue>> OnEach(Action<TKey, TValue> action)
+        {
+            return source.Select(x =>
+            {
+                action(x.Key, x.Value);
+                return x;
+            });
+        }
     }
 }
 

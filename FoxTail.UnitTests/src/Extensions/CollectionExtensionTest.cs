@@ -46,4 +46,17 @@ public class CollectionExtensionTest
         list.Add(1);
         Assert.That(list.IsNotEmpty, Is.True);
     }
+
+    [Test]
+    public void ForEachIndexedTest()
+    {
+        List<string> l = ["hello", "world", "from", "a", "list"];
+
+        foreach (var (str, index) in l.Indexed())
+        {
+            Console.WriteLine($"[{index}]={str} ");
+        }
+
+        Console.WriteLine();
+    }
 }
