@@ -1,6 +1,6 @@
-﻿namespace FoxTail.Common.Misc;
+﻿namespace FoxTail.Common.Utils;
 
-public static class TimeUtil
+public static class TimeUtils
 {
     public static long CurrentTimeMillisUtc => (long)DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
     public static long CurrentTimeMillis => (long)DateTime.Now.Subtract(DateTime.UnixEpoch).TotalMilliseconds;   

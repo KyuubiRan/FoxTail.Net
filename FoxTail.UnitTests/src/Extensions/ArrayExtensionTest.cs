@@ -18,4 +18,21 @@ public class ArrayExtensionTest
             Assert.That(c.IsNotEmpty, Is.True);
         });
     }
+
+    [Test]
+    public void ArrayTest1()
+    {
+        int[] a = [1, 2, 3, 4, 5, 6, 7, 8];
+
+        Console.WriteLine(a.Random());
+        Console.WriteLine(a.Random());
+        Console.WriteLine(a.Random());
+
+        Console.WriteLine("================");
+        var rng = new Random(42);
+        
+        Console.WriteLine(a.Random(rng));
+        Console.WriteLine(a.Random(rng));
+        Console.WriteLine(a.Random(rng));
+    }
 }
